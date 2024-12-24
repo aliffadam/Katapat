@@ -4,7 +4,8 @@
   "description": "Wordle game but malay and with a few twist",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\""
   },
   "author": "",
   "license": "ISC"

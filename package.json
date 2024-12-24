@@ -1,0 +1,12 @@
+{
+  "name": "wordle-malay",
+  "version": "1.0.0",
+  "description": "Wordle game but malay and with a few twist",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

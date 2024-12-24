@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config();
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@clusterwordlemalay.wytow.mongodb.net/?retryWrites=true&w=majority&appName=ClusterWordleMalay`;

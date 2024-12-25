@@ -6,18 +6,12 @@ let client = require('./db/database')
 
 app.use(express.json())
 
+const registerRouter = require('./account/register')
+
+app.use('/account', registerRouter)
+
 app.get('/', (req, res) => {
    res.send('Hello World!')
-})
-
-app.post('/account', async (req, res) => {
-   let result = await client.db('db_wm').collection('account').insertOne(
-      {
-         username : req.body.username
-      }
-   )
-
-   res.send('Created account!')
 })
 
 app.listen(port, () => {

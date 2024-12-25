@@ -1,13 +1,13 @@
 const express = require('express');
 const registerRouter = express.Router();
-module.exports = registerRouter;
 
 const bcrypt = require('bcrypt')
 salt_rounds = 10
 
 const account = require('../db/client.js')
 
-registerRouter.post('/register', async (req, res) => {
+registerRouter.route('/register')
+    .post(async (req, res) => {
 
     let { username, password } = req.body
 
@@ -41,4 +41,15 @@ registerRouter.post('/register', async (req, res) => {
     )
 
     res.status(200).send(`Created account ${username}!`)
-})
+    })
+    .get(async (req, res) => {
+        res.status(204).send('Nothing here')
+    })
+    .patch(async (req, res) => {
+        res.status(204).send('Nothing here')
+    })
+    .delete(async (req, res) => {
+        res.status(204).send('Nothing here')
+    })
+
+module.exports = registerRouter;

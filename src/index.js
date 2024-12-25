@@ -7,8 +7,10 @@ let client = require('./db/database')
 app.use(express.json())
 
 const registerRouter = require('./account/register')
+const loginRouter = require('./account/login')
 
 app.use('/account', registerRouter)
+// app.use('/account', loginRouter)
 
 app.get('/', (req, res) => {
    res.send('Hello World!')

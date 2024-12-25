@@ -4,28 +4,30 @@ module.exports = registerRouter;
 
 const account = require('../db/client.js')
 
-let base_url = require('./constants.js')
-
-registerRouter.post(`${base_url}/register`, async (req, res) => {
+registerRouter.post('/register', async (req, res) => {
 
     let { username, password } = req.body
 
+    //check if enough data
     if(!username || !password) {
         res.status(404).send('Please provide valid input')
         return
     }
 
+    //check if username already exist
     let exists = await account.findOne(
         {
             username: username
         }
     )
 
+    //reject if username already exist
     if(exists) {
         res.status(404).send('Username already exist!')
         return
     }
 
+    //if all pass, insert into database
     let result = await account.insertOne(
         {
             username: username,

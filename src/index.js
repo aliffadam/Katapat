@@ -8,7 +8,7 @@ app.use(express.json())
 
 const registerRouter = require('./account/register')
 
-app.use(registerRouter)
+app.use('/account', registerRouter)
 
 app.get('/', (req, res) => {
    res.send('Hello World!')

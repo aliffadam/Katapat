@@ -2,6 +2,9 @@ const express = require('express');
 const registerRouter = express.Router();
 module.exports = registerRouter;
 
+const bcrypt = require('bcrypt')
+salt_rounds = 10
+
 const account = require('../db/client.js')
 
 registerRouter.post('/register', async (req, res) => {
@@ -27,11 +30,13 @@ registerRouter.post('/register', async (req, res) => {
         return
     }
 
+    const password_hashed = bcrypt.hashSync(password, salt_rounds)
+
     //if all pass, insert into database
     let result = await account.insertOne(
         {
             username: username,
-            password: password
+            password: password_hashed
         }
     )
 

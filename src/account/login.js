@@ -53,4 +53,4 @@ loginRouter.route('/login')
         res.status(204).send('Nothing here')
     })
 
-module.exports = registerRouter;
+module.exports = loginRouter;

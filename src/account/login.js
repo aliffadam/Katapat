@@ -48,7 +48,7 @@ loginRouter.route('/login')
             }
         )
 
-        let { username } = req.body.username
+        let { username } = req.body
 
         //if there is no username in req
         //basically means that the user (any role) wants self data

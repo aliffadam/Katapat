@@ -13,18 +13,15 @@ function verify_jwt(req, res, next) {
         return
     }
 
-    //put in locals for so other function can use
-    res.locals.token_jwt = token_jwt
-
     //verify with secret
-    jwt.verify(res.locals.token_jwt, jwt_secret, (error, auth_data) => {
+    jwt.verify(token_jwt, jwt_secret, (error, jwt_data) => {
         if(error) {
             res.status(400).send('Unauthorized')
             return
         }
         else {
             //keep authorized user data
-            res.locals.auth_data = auth_data
+            res.locals.jwt_data = jwt_data
             next()
         }
     })

@@ -20,28 +20,31 @@ loginRouter.route('/login')
 
         let { username, password } = req.body
 
+        let account = res.locals.account
+
         var token = jwt.sign(
             {
-                _id: found_user._id,
-                username: found_user.username
+                _id: account._id,
+                username: account.username
             },
             jwt_secret,
-            { expiresIn: 60*60*2 }
+            { expiresIn: 60*60*2 } //2 hrs
         )
 
         res.status(200).send(token)
     })
+    //GET /login uses jwt_data to identify who is accessing right now
     .get(verify_jwt, async (req, res) => {
 
-        let { username, password } = req.body
+        let jwt_data = res.locals.jwt_data
 
-        let result = await account.findOne(
+        let result = account.findOne(
             {
-                username: username
+                username: jwt_data.username
             }
         )
 
-        res.status(204).send('Nothing here')
+        res.status(200).send(result)
     })
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')

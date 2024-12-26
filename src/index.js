@@ -16,6 +16,10 @@ app.use('/account', loginRouter)
 //    res.send('Hello World!')
 // })
 
+app.use((req, res) => {
+  res.status(200).send('home')
+})
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

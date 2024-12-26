@@ -8,6 +8,8 @@ jwt_secret = 'nevergonnagiveyouup'
 
 const account = require('../db/client.js');
 
+let { verify_jwt } = require('../utils/verify-jwt.js')
+
 //TODO: should implement id so that user can go account/:id or account/login/id: to do all related stuff
 // plus we can verify with jwt they give with the 
 
@@ -47,15 +49,15 @@ loginRouter.route('/login')
 
         res.status(200).send(token)
     })
-    .get(async (req, res) => {
+    .get(verify_jwt, async (req, res) => {
 
         let { username, password } = req.body
 
-        let { auth } = req.headers.authorization
-        let authSplitted = auth.split(' ')
-        let token = authSplitted[1]
-
-        let decoded = jwt.verify(token, jwt_secret)
+        let result = await account.findOne(
+            {
+                username: username
+            }
+        )
 
         res.status(204).send('Nothing here')
     })

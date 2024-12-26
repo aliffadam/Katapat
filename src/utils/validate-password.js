@@ -24,3 +24,5 @@ function check_password(req, res, next) {
 
     next()
 }
+
+module.exports = { check_password }

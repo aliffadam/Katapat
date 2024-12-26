@@ -2,22 +2,28 @@ var jwt = require('jsonwebtoken');
 jwt_secret = 'nevergonnagiveyouup'
 
 function verify_jwt(req, res, next) {
-    const bearer_header = req.headers['authorization']
 
-    if(typeof bearer_header === 'undefined') {
-        res.status(400).send('No jwt token found')
+    //getting jwt_token
+    const authHeader = req.headers.authorization
+    const token_jwt = authHeader && authHeader.split(` `)[1]
+
+    //check if server got token
+    if (token_jwt == null) {
+        res.status(401).send('No jwt token found')
         return
     }
 
-    const bearer = bearer_header.split(' ')
-    res.locals.jwt = bearer[1]
+    //put in locals for so other function can use
+    res.locals.token_jwt = token_jwt
 
+    //verify with secret
     jwt.verify(res.locals.jwt, jwt_secret, (error, auth_data) => {
         if(error) {
             res.status(400).send('Unauthorized')
             return
         }
         else {
+            //keep authorized user data
             res.locals.auth_data = auth_data
             next()
         }

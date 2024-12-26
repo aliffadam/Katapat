@@ -11,6 +11,8 @@ let { find_username } = require('../utils/find-username.js')
 registerRouter.route('/register')
     .post(find_username, async (req, res) => {
 
+        let { username, password } = req.body
+
         //reject if username already exist
         if(res.locals.user_exist) {
             res.status(404).send('Username already exist!')

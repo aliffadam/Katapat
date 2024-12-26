@@ -6,26 +6,13 @@ salt_rounds = 10;
 
 const account = require('../db/client.js');
 
+let { find_username } = require('../utils/find-username.js')
+
 registerRouter.route('/register')
-    .post(async (req, res) => {
-
-        let { username, password } = req.body
-
-        //check if enough data
-        if(!username || !password) {
-            res.status(404).send('Please provide valid input')
-            return
-        }
-
-        //check if username already exist
-        let exists = await account.findOne(
-            {
-                username: username
-            }
-        )
+    .post(find_username, async (req, res) => {
 
         //reject if username already exist
-        if(exists) {
+        if(res.locals.user_exist) {
             res.status(404).send('Username already exist!')
             return
         }

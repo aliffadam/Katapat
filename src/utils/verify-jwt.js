@@ -25,8 +25,6 @@ function verify_jwt(req, res, next) {
             next()
         }
     })
-    
-    next()
 }
 
 module.exports = { verify_jwt }

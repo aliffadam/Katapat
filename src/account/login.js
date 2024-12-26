@@ -8,8 +8,6 @@ jwt_secret = 'nevergonnagiveyouup'
 
 const account = require('../db/client.js');
 
-
-
 //TODO: should implement id so that user can go account/:id or account/login/id: to do all related stuff
 // plus we can verify with jwt they give with the 
 

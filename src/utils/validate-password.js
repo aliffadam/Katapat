@@ -3,7 +3,7 @@ salt_rounds = 10;
 
 function validate_password(req, res, next) {
 
-    let { password } = req.body.password
+    let { password } = req.body
 
     //check if username exist in database
     if(!res.locals.user_exist) {

@@ -78,8 +78,39 @@ loginRouter.route('/login')
 
         res.status(200).send(find_one)
     })
-    .patch(async (req, res) => {
-        res.status(204).send('Nothing here')
+    //for change password
+    .patch(verify_jwt, async (req, res) => {
+
+        let { username, password } = req.body
+
+        let req_user = await account.findOne(
+            {
+                username: res.locals.jwt_data.username
+            }
+        )
+
+        const password_hashed = bcrypt.hashSync(password, salt_rounds)
+
+        let account_to_change = res.locals.jwt_data.username
+
+        if(username && req_user.role == 'admin') {
+            account_to_change = username
+        }
+
+        let result = account.updateOne(
+            { account_to_change },
+            {
+                $set: {
+                    password: password_hashed
+                }
+            }
+        )
+
+        if(!result) {
+            res.status(400).send('Unable to change password')
+            return
+        }
+        res.status(200).send(`Password for user ${account_to_change} changed`)
     })
     .delete(async (req, res) => {
         res.status(204).send('Nothing here')

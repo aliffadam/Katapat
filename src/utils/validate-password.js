@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt');
 salt_rounds = 10;
 
-const account = require('../db/client.js');
-
 function check_password(req, res, next) {
 
     let { password } = req.body.password

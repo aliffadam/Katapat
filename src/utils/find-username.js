@@ -1,6 +1,8 @@
 const account = require('../db/client.js');
 
 //THIS FUNCTION ONLY CHECKS USERNAME BUT DOES NOT EXIT IF NOT FOUND
+
+//IF AND ONLY IF USERNAME EXIST IN DATABASE, WILL PUT DATA IN res.locals.account
 async function find_username(req, res, next) {
 
     let { username } = req.body.username

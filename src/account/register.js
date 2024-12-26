@@ -13,6 +13,11 @@ registerRouter.route('/register')
 
         let { username, password } = req.body
 
+        if(!password) {
+            res.status(400).send('Please enter your password')
+            return
+        }
+
         //reject if username already exist
         if(res.locals.user_exist) {
             res.status(404).send('Username already exist!')

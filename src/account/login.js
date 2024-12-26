@@ -83,6 +83,10 @@ loginRouter.route('/login')
 
         let { username, password } = req.body
 
+        if(!password) {
+            res.status(400).send('Please enter a new password')
+        }
+
         let req_user = await account.findOne(
             {
                 username: res.locals.jwt_data.username

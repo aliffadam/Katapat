@@ -48,7 +48,35 @@ loginRouter.route('/login')
             }
         )
 
-        res.status(200).send(result)
+        let { username } = req.body.username
+
+        //if there is no username in req
+        //basically means that the user (any role) wants self data
+        //player role ONLY up to here
+        if(!username || result.role == 'player') {
+            res.status(200).send(result)
+            return
+        }
+
+        if(username == 'all' || result.role == 'admin') {
+
+            let find_all = await account.find({})
+
+            res.status(200).send(find_all)
+            return
+        }
+
+        let find_one = await account.findOne(
+            {
+                username: username
+            }
+        )
+
+        if(!find_one) {
+            res.status(400).send(`Could not find username ${username}`)
+        }
+
+        res.status(200).send(find_one)
     })
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')

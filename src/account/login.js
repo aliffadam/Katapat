@@ -112,8 +112,35 @@ loginRouter.route('/login')
         }
         res.status(200).send(`Password for user ${account_to_change} changed`)
     })
-    .delete(async (req, res) => {
-        res.status(204).send('Nothing here')
+    .delete(verify_jwt, async (req, res) => {
+
+        let { username, password } = req.body
+
+        let req_user = await account.findOne(
+            {
+                username: res.locals.jwt_data.username
+            }
+        )
+
+        to_delete = res.locals.jwt_data.username
+
+        if(username && req_user.role == 'admin') {
+
+            to_delete = username
+        }
+
+        let deleted = await account.deleteOne(
+            {
+                username: to_delete
+            }
+        )
+
+        if(!deleted) {
+            res.status(400).send(`Unable to delete ${to_delete}`)
+            return
+        }
+
+        res.status(200).send(`Successfully deleted ${to_delete}`)
     })
 
 module.exports = loginRouter;

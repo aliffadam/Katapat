@@ -17,7 +17,7 @@ function verify_jwt(req, res, next) {
     res.locals.token_jwt = token_jwt
 
     //verify with secret
-    jwt.verify(res.locals.jwt, jwt_secret, (error, auth_data) => {
+    jwt.verify(res.locals.token_jwt, jwt_secret, (error, auth_data) => {
         if(error) {
             res.status(400).send('Unauthorized')
             return

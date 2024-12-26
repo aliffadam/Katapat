@@ -8,35 +8,17 @@ jwt_secret = 'nevergonnagiveyouup'
 
 const account = require('../db/client.js');
 
+let { find_username } = require('../utils/find-username.js')
+let { validate_password } = require('../utils/validate-password.js')
 let { verify_jwt } = require('../utils/verify-jwt.js')
 
 //TODO: should implement id so that user can go account/:id or account/login/id: to do all related stuff
 // plus we can verify with jwt they give with the 
 
 loginRouter.route('/login')
-    .post(async (req, res) => {
+    .post(find_username, validate_password, async (req, res) => {
 
         let { username, password } = req.body
-
-        if(!username || !password) {
-            res.status(404).send('Please provide valid input')
-            return
-        }
-
-        let found_user = await account.findOne(
-            {
-                username: username
-            }
-        )
-
-        if(!found_user) {
-            res.status(400).send(`${username} not found`)
-            return
-        } 
-
-        if(!(bcrypt.compareSync(password, found_user.password))) {
-            res.status(400).send('Password is incorrect')
-        }
 
         var token = jwt.sign(
             {

@@ -7,6 +7,10 @@ async function find_username(req, res, next) {
 
     let { username } = req.body.username
 
+    if(!username) {
+        res.status(400).send('Please provide a username')
+    }
+
     let result = await account.findOne(
         {
             username: username

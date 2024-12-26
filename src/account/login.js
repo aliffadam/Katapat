@@ -101,8 +101,8 @@ loginRouter.route('/login')
             account_to_change = username
         }
 
-        let result = account.updateOne(
-            { account_to_change },
+        let result = await account.updateOne(
+            { username: account_to_change },
             {
                 $set: {
                     password: password_hashed

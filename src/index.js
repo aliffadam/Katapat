@@ -12,9 +12,9 @@ const loginRouter = require('./account/login')
 app.use('/account', registerRouter)
 app.use('/account', loginRouter)
 
-app.get('/', (req, res) => {
-   res.send('Hello World!')
-})
+// app.get('/', (req, res) => {
+//    res.send('Hello World!')
+// })
 
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)

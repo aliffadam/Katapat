@@ -34,6 +34,10 @@ loginRouter.route('/login')
         res.status(200).send(token)
     })
     //GET /login uses jwt_data to identify who is accessing right now
+    //for getting user data
+    //admin => get all account
+    //gm => can find account by specifying username: 'wanted-username' (maybe can try implement regex)
+    //player => can only get self data
     .get(verify_jwt, async (req, res) => {
 
         let jwt_data = res.locals.jwt_data

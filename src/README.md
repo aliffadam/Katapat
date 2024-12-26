@@ -7,3 +7,7 @@ role
     admin
     gm
     player
+
+jwt token data
+    username
+    _id

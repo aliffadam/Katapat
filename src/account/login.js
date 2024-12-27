@@ -81,10 +81,12 @@ loginRouter.route('/login')
     //for change password
     .patch(verify_jwt, async (req, res) => {
 
-        let { username, password } = req.body
+        let { username, password, role } = req.body
 
-        if(!password) {
-            res.status(400).send('Please enter a new password')
+        let account_to_change = res.locals.jwt_data.username
+
+        if(username && req_user.role == 'admin') {
+            account_to_change = username
         }
 
         let req_user = await account.findOne(
@@ -93,13 +95,34 @@ loginRouter.route('/login')
             }
         )
 
-        const password_hashed = bcrypt.hashSync(password, salt_rounds)
+        let message_role_change = 'Do not share your password'
 
-        let account_to_change = res.locals.jwt_data.username
+        //only admin
+        if(role && req_user.role == 'admin') {
 
-        if(username && req_user.role == 'admin') {
-            account_to_change = username
+            let result = await account.updateOne(
+                { username: account_to_change },
+                {
+                    $set: {
+                        role: role
+                    }
+                }
+            )
+
+            message_role_change = `Role for user ${account_to_change} changed to ${role}`
+
+            if(!password) {
+                res.status(200).send(message_role_change)
+                return
+            }
         }
+
+        if(!password) {
+            res.status(400).send('Please enter a new password')
+            return
+        }
+
+        const password_hashed = bcrypt.hashSync(password, salt_rounds)
 
         let result = await account.updateOne(
             { username: account_to_change },
@@ -114,7 +137,7 @@ loginRouter.route('/login')
             res.status(400).send('Unable to change password')
             return
         }
-        res.status(200).send(`Password for user ${account_to_change} changed`)
+        res.status(200).send(`Password for user ${account_to_change} changed\n`, message_role_change)
     })
     .delete(verify_jwt, async (req, res) => {
 

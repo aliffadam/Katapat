@@ -30,7 +30,8 @@ registerRouter.route('/register')
         let result = await account.insertOne(
             {
                 username: username,
-                password: password_hashed
+                password: password_hashed,
+                role: 'player'
             }
         )
 

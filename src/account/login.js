@@ -60,7 +60,7 @@ loginRouter.route('/login')
 
         if(username == 'all' && result.role == 'admin') {
 
-            let find_all = await account.find({}).toArray()
+            let find_all = await account.find().toArray()
 
             res.status(200).send(find_all)
             return

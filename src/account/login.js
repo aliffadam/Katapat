@@ -20,12 +20,12 @@ loginRouter.route('/login')
 
         let { username, password } = req.body
 
-        let account = res.locals.account
+        let account_jwt = res.locals.account
 
         var token = jwt.sign(
             {
-                _id: account._id,
-                username: account.username
+                _id: account_jwt._id,
+                username: account_jwt.username
             },
             jwt_secret,
             { expiresIn: 60*60*2 } //2 hrs
@@ -42,7 +42,7 @@ loginRouter.route('/login')
 
         let jwt_data = res.locals.jwt_data
 
-        let result = account.findOne(
+        let result = await account.findOne(
             {
                 username: jwt_data.username
             }
@@ -58,9 +58,9 @@ loginRouter.route('/login')
             return
         }
 
-        if(username == 'all' || result.role == 'admin') {
+        if(username == 'all' && result.role == 'admin') {
 
-            let find_all = await account.find({})
+            let find_all = await account.find().toArray()
 
             res.status(200).send(find_all)
             return

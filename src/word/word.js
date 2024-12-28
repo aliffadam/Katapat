@@ -4,13 +4,15 @@ const word_listRouter = express.Router();
 const { word_list } = require('../db/client.js');
 
 const { jwt_search } = require('../utils/jwt-search.js')
+const { verify_jwt } = require('../utils/verify-jwt.js')
 
 word_listRouter.route('/edit')
-    .post(jwt_search, async (req, res) => {
+    .post(verify_jwt, jwt_search, async (req, res) => {
 
         const user = res.locals.account
         if(user.role != 'admin' && user.role != 'gm') {
             res.status(400).send('Unauthorized')
+            return
         }
         
         let { word } = req.body
@@ -57,8 +59,33 @@ word_listRouter.route('/edit')
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')
     })
-    .delete(async (req, res) => {
-        res.status(204).send('Nothing here')
+    .delete(verify_jwt, jwt_search, async (req, res) => {
+        
+        const user = res.locals.account
+        if(user.role != 'admin' && user.role != 'gm') {
+            res.status(400).send('Unauthorized')
+            return
+        }
+
+        let { word } = req.body
+
+        if(!word) {
+            res.status(400).send('Please enter the word to delete')
+            return
+        }
+
+        let deleted_word = await word_list.deleteOne(
+            {
+                word: word
+            }
+        )
+
+        if(!deleted_word) {
+            res.status(400).send(`Could not delete word ${word}`)
+            return
+        }
+
+        res.status(200).send(`Word ${word} deleted`)
     })
 
 module.exports = word_listRouter;

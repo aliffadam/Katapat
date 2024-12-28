@@ -3,8 +3,15 @@ const word_listRouter = express.Router();
 
 const { word_list } = require('../db/client.js');
 
+const { jwt_search } = require('../utils/jwt-search.js')
+
 word_listRouter.route('/edit')
-    .post(async (req, res) => {
+    .post(jwt_search, async (req, res) => {
+
+        const user = res.locals.account
+        if(user.role != 'admin' && user.role != 'gm') {
+            res.status(400).send('Unauthorized')
+        }
         
         let { word } = req.body
 

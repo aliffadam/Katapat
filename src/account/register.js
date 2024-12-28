@@ -6,10 +6,10 @@ salt_rounds = 10;
 
 const { account } = require('../db/client.js');
 
-let { find_username } = require('../utils/find-username.js')
+let { req_search } = require('../utils/req-search.js')
 
 registerRouter.route('/register')
-    .post(find_username, async (req, res) => {
+    .post(req_search, async (req, res) => {
 
         let { username, password } = req.body
 

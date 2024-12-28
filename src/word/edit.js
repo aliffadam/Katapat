@@ -5,14 +5,17 @@ const { word_list } = require('../db/client.js');
 
 const { jwt_search } = require('../utils/jwt-search.js')
 const { verify_jwt } = require('../utils/verify-jwt.js')
+const { only_admin_gm } = require('../utils/access.js')
 
-function only_admin_gm(res) {
-    const user = res.locals.account
-    if(user.role != 'admin' && user.role != 'gm') {
-        res.status(400).send('Unauthorized')
-        return false
-    }
-}
+// function only_admin_gm(res) {
+
+//     const user = res.locals.account
+    
+//     if(user.role != 'admin' && user.role != 'gm') {
+//         res.status(400).send('Unauthorized')
+//         return false
+//     }
+// }
 
 word_listRouter.route('/edit')
     .post(verify_jwt, jwt_search, async (req, res) => {
@@ -61,13 +64,13 @@ word_listRouter.route('/edit')
 
         res.status(200).send(`Inserted word ${word}`)
     })
-    .get(verify_jwt, jwt_search, async (req, res) => {
+    .get(verify_jwt, jwt_search, only_admin_gm, async (req, res) => {
 
-        if(!only_admin_gm(res)) {
-            return
-        }
+        // if(!only_admin_gm(res)) {
+        //     return
+        // }
 
-        const user = res.locals.account
+        // const user = res.locals.account
 
         const { word } = req.body
 

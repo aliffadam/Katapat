@@ -6,7 +6,7 @@ const { word_list } = require('../db/client.js');
 word_listRouter.route('/edit')
     .post(async (req, res) => {
         
-        const { word } = req.body
+        let { word } = req.body
 
         if(typeof word != 'string') {
             res.status(400).send('Please enter a word')

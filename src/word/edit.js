@@ -6,6 +6,14 @@ const { word_list } = require('../db/client.js');
 const { jwt_search } = require('../utils/jwt-search.js')
 const { verify_jwt } = require('../utils/verify-jwt.js')
 
+function only_admin_gm(res) {
+    const user = res.locals.account
+    if(user.role != 'admin' && user.role != 'gm') {
+        res.status(400).send('Unauthorized')
+        return false
+    }
+}
+
 word_listRouter.route('/edit')
     .post(verify_jwt, jwt_search, async (req, res) => {
 
@@ -53,8 +61,46 @@ word_listRouter.route('/edit')
 
         res.status(200).send(`Inserted word ${word}`)
     })
-    .get(async (req, res) => {
-        res.status(204).send('Nothing here')
+    .get(verify_jwt, jwt_search, async (req, res) => {
+
+        if(!only_admin_gm(res)) {
+            return
+        }
+
+        const user = res.locals.account
+
+        const { word } = req.body
+
+        if(!word) {
+            res.status(400).send('Please enter a word to search')
+            return
+        }
+
+        if(word == 'all') {
+
+            let find_all = await word_list.find().toArray()
+            
+            if(!find_all) {
+                res.status(400).send('Unable to get word')
+                return
+            }
+
+            res.status(200).send(find_all)
+            return
+        }
+
+        let found_word = await word_list.findOne(
+            {
+                word: word
+            }
+        )
+
+        if(!found_word) {
+            res.status(200).send(`The word ${word} was not found`)
+            return
+        }
+
+        res.status(200).send(word)
     })
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')

@@ -103,7 +103,7 @@ word_listRouter.route('/edit')
             return
         }
 
-        res.status(200).send(word)
+        res.status(200).send(found_word)
     })
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')

@@ -1,4 +1,4 @@
-const account = require('../db/client.js');
+const { account } = require('../db/client.js');
 
 //THIS FUNCTION ONLY CHECKS USERNAME BUT DOES NOT EXIT IF NOT FOUND
 

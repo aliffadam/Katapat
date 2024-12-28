@@ -4,7 +4,7 @@ const registerRouter = express.Router();
 const bcrypt = require('bcrypt');
 salt_rounds = 10;
 
-const account = require('../db/client.js');
+const { account } = require('../db/client.js');
 
 let { find_username } = require('../utils/find-username.js')
 

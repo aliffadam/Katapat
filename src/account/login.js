@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 jwt_secret = 'nevergonnagiveyouup'
 
-const account = require('../db/client.js');
+const { account } = require('../db/client.js');
 
 let { find_username } = require('../utils/find-username.js')
 let { validate_password } = require('../utils/validate-password.js')

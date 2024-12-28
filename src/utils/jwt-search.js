@@ -13,7 +13,7 @@ async function jwt_search(req, res, next) {
         }
     )
 
-    if(result) {
+    if(!result) {
         res.status(400).send('Unable to find user')
         return
     }

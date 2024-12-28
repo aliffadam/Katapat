@@ -8,7 +8,7 @@ jwt_secret = 'nevergonnagiveyouup'
 
 const { account } = require('../db/client.js');
 
-let { find_username } = require('../utils/req-search.js')
+let { req_search } = require('../utils/req-search.js')
 let { validate_password } = require('../utils/validate-password.js')
 let { verify_jwt } = require('../utils/verify-jwt.js')
 
@@ -16,7 +16,7 @@ let { verify_jwt } = require('../utils/verify-jwt.js')
 // plus we can verify with jwt they give with the 
 
 loginRouter.route('/login')
-    .post(find_username, validate_password, async (req, res) => {
+    .post(req_search, validate_password, async (req, res) => {
 
         let { username, password } = req.body
 

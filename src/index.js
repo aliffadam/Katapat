@@ -8,7 +8,7 @@ app.use(express.json())
 
 const registerRouter = require('./account/register')
 const loginRouter = require('./account/login')
-const word_listRouter = require('./word/word')
+const word_listRouter = require('./word/edit')
 
 app.use('/account', registerRouter)
 app.use('/account', loginRouter)

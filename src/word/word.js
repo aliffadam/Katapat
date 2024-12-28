@@ -18,6 +18,8 @@ word_listRouter.route('/edit')
             return
         }
 
+        word = word.toLocaleLowerCase()
+
         let word_exist = await word_list.findOne(
             {
                 word: word

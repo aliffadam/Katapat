@@ -7,7 +7,9 @@ const { jwt_search } = require('../utils/jwt-search.js')
 const { verify_jwt } = require('../utils/verify-jwt.js')
 
 function only_admin_gm(res) {
+
     const user = res.locals.account
+    
     if(user.role != 'admin' && user.role != 'gm') {
         res.status(400).send('Unauthorized')
         return false

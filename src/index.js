@@ -14,10 +14,6 @@ app.use('/account', registerRouter)
 app.use('/account', loginRouter)
 app.use('/word', word_listRouter)
 
-// app.get('/', (req, res) => {
-//    res.send('Hello World!')
-// })
-
 app.use((req, res) => {
   res.status(200).send('home')
 })

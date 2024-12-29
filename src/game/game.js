@@ -10,6 +10,7 @@ const { input_word } = require('../utils/input-word.js');
 gameRouter.route('/play')
     .post(verify_jwt, jwt_search, input_word, async (req, res) => {
         let word = res.locals.word
+
         
     })
     .get(verify_jwt, jwt_search, async (req, res) => {

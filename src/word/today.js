@@ -9,7 +9,7 @@ const { only_admin_gm } = require('../utils/access.js')
 
 const { insert_random } = require('../server/insert-random.js')
 
-registerRouter.route('/today')
+today_wordRouter.route('/today')
     .post(verify_jwt, jwt_search, only_admin_gm, async (req, res) => {
 
         insert_random()

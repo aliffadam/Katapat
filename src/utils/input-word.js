@@ -2,6 +2,11 @@ function input_word(req, res, next) {
 
     let { word } = req.body
 
+    if(!word) {
+        res.status(400).send('Please enter a word')
+        return
+    }
+
     if(typeof word != 'string') {
         res.status(400).send('Please enter a word')
         return
@@ -23,3 +28,5 @@ function input_word(req, res, next) {
 
     next()
 }
+
+module.exports = { input_word }

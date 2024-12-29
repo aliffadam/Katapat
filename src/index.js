@@ -12,10 +12,12 @@ app.use(express.json())
 const registerRouter = require('./account/register')
 const loginRouter = require('./account/login')
 const word_listRouter = require('./word/edit')
+const today_wordRouter = require('./word/today')
 
 app.use('/account', registerRouter)
 app.use('/account', loginRouter)
 app.use('/word', word_listRouter)
+app.use('/word', today_wordRouter)
 
 app.use((req, res) => {
   res.status(200).send('home')

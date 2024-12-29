@@ -4,7 +4,8 @@ const port = process.env.PORT || 3000;
 
 let client = require('./db/database')
 
-const { daily_word } = require('./server/daily-word')
+const { day_interval } = require('./server/day-interval')
+const { insert_random } = require('./server/insert-random')
 
 app.use(express.json())
 
@@ -20,7 +21,11 @@ app.use((req, res) => {
   res.status(200).send('home')
 })
 
-daily_word()
+// daily_word()
+if(day_interval()) {
+  //randomly pick a new word
+  insert_random()
+}
 
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)

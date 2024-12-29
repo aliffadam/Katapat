@@ -76,3 +76,5 @@ gameRouter.route('/play')
     .delete(verify_jwt, jwt_search, async (req, res) => {
         res.status(204).send('Nothing here')
     })
+
+module.exports = gameRouter

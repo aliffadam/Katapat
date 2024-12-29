@@ -4,6 +4,8 @@ const port = process.env.PORT || 3000;
 
 let client = require('./db/database')
 
+const { daily_word } = require('./server/daily-word')
+
 app.use(express.json())
 
 const registerRouter = require('./account/register')
@@ -17,6 +19,8 @@ app.use('/word', word_listRouter)
 app.use((req, res) => {
   res.status(200).send('home')
 })
+
+daily_word()
 
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)

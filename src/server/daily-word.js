@@ -23,3 +23,5 @@ async function daily_word() {
     }
 
 }
+
+module.exports = { daily_word }

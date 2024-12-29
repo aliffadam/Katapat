@@ -8,13 +8,7 @@ const { verify_jwt } = require('../utils/verify-jwt.js')
 const { only_admin_gm } = require('../utils/access.js')
 
 word_listRouter.route('/edit')
-    .post(verify_jwt, jwt_search, async (req, res) => {
-
-        const user = res.locals.account
-        if(user.role != 'admin' && user.role != 'gm') {
-            res.status(400).send('Unauthorized')
-            return
-        }
+    .post(verify_jwt, jwt_search, only_admin_gm, async (req, res) => {
         
         let { word } = req.body
 
@@ -92,13 +86,7 @@ word_listRouter.route('/edit')
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')
     })
-    .delete(verify_jwt, jwt_search, async (req, res) => {
-        
-        const user = res.locals.account
-        if(user.role != 'admin' && user.role != 'gm') {
-            res.status(400).send('Unauthorized')
-            return
-        }
+    .delete(verify_jwt, jwt_search, only_admin_gm, async (req, res) => {
 
         let { word } = req.body
 

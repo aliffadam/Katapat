@@ -4,23 +4,30 @@ const port = process.env.PORT || 3000;
 
 let client = require('./db/database')
 
+const { day_interval } = require('./server/day-interval')
+const { insert_random } = require('./server/insert-random')
+
 app.use(express.json())
 
 const registerRouter = require('./account/register')
 const loginRouter = require('./account/login')
 const word_listRouter = require('./word/edit')
+const today_wordRouter = require('./word/today')
 
 app.use('/account', registerRouter)
 app.use('/account', loginRouter)
 app.use('/word', word_listRouter)
-
-// app.get('/', (req, res) => {
-//    res.send('Hello World!')
-// })
+app.use('/word', today_wordRouter)
 
 app.use((req, res) => {
   res.status(200).send('home')
 })
+
+// daily_word()
+if(day_interval()) {
+  //randomly pick a new word
+  insert_random()
+}
 
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)

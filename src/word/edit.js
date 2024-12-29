@@ -6,29 +6,12 @@ const { word_list } = require('../db/client.js');
 const { jwt_search } = require('../utils/jwt-search.js')
 const { verify_jwt } = require('../utils/verify-jwt.js')
 const { only_admin_gm } = require('../utils/access.js')
+const { input_word } = require('../utils/input-word.js')
 
 word_listRouter.route('/edit')
-    .post(verify_jwt, jwt_search, async (req, res) => {
+    .post(verify_jwt, jwt_search, only_admin_gm, input_word, async (req, res) => {
 
-        const user = res.locals.account
-        if(user.role != 'admin' && user.role != 'gm') {
-            res.status(400).send('Unauthorized')
-            return
-        }
-        
-        let { word } = req.body
-
-        if(typeof word != 'string') {
-            res.status(400).send('Please enter a word')
-            return
-        }
-
-        if(word.length != 5) {
-            res.status(400).send('Please enter a 5 letter word')
-            return
-        }
-
-        word = word.toLocaleLowerCase()
+        let word = res.locals.word
 
         let word_exist = await word_list.findOne(
             {
@@ -54,14 +37,9 @@ word_listRouter.route('/edit')
 
         res.status(200).send(`Inserted word ${word}`)
     })
-    .get(verify_jwt, jwt_search, only_admin_gm, async (req, res) => {
+    .get(verify_jwt, jwt_search, only_admin_gm, input_word, async (req, res) => {
 
-        const { word } = req.body
-
-        if(!word) {
-            res.status(400).send('Please enter a word to search')
-            return
-        }
+        let word = res.locals.word
 
         if(word == 'all') {
 
@@ -92,20 +70,9 @@ word_listRouter.route('/edit')
     .patch(async (req, res) => {
         res.status(204).send('Nothing here')
     })
-    .delete(verify_jwt, jwt_search, async (req, res) => {
-        
-        const user = res.locals.account
-        if(user.role != 'admin' && user.role != 'gm') {
-            res.status(400).send('Unauthorized')
-            return
-        }
+    .delete(verify_jwt, jwt_search, only_admin_gm, input_word, async (req, res) => {
 
-        let { word } = req.body
-
-        if(!word) {
-            res.status(400).send('Please enter the word to delete')
-            return
-        }
+        let word = res.locals.word
 
         let deleted_word = await word_list.deleteOne(
             {
